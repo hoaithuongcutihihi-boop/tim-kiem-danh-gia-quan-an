@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="min-h-screen text-slate-800 antialiased p-4 md:p-8" style="background-image: url('9a171ed2d5f3155687b34219c31fcd2d.jpg'); background-repeat: repeat; background-attachment: fixed; background-size: cover;">
     <div class="max-w-4xl mx-auto bg-white p-6 md:p-10 rounded-3xl shadow-xl border border-slate-100">
@@ -18,19 +19,15 @@
             </h1>
             <p class="text-slate-500 text-sm md:text-base">Hệ thống phân tích cảm xúc & tích lũy phản hồi ẩm thực thực tế</p>
         </div>
-		
-		<!-- MENU TÍCH HỢP -->
-		<div class="flex justify-center gap-4 mb-8">
-		    <button onclick="showTab('search')" id="btnSearch" class="bg-[#ce9552] text-white px-6 py-2 rounded-full font-bold shadow-md transition-all">Tra Cứu Quán Ăn</button>
-		    <button onclick="showTab('dashboard')" id="btnDash" class="bg-slate-100 text-slate-600 px-6 py-2 rounded-full font-bold hover:bg-slate-200 transition-all">Thống Kê Tổng Quan</button>
-		</div>
-		<!-- MENU TÍCH HỢP -->
-		<div class="flex justify-center gap-4 mb-8">
-		    <button onclick="showTab('search')" id="btnSearch" class="bg-[#ce9552] text-white px-6 py-2 rounded-full font-bold shadow-md transition-all">Tra Cứu Quán Ăn</button>
-		    <a href="https://tim-kiem-danh-gia-quan-an-ffkirsfdh9vzsunb6icjnh.streamlit.app/" target="_blank" class="bg-slate-100 text-slate-600 px-6 py-2 rounded-full font-bold hover:bg-slate-200 transition-all text-center inline-block">Thống Kê Tổng Quan</a>
-		</div>
-		        <div id="tabSearch">
-		
+        
+        <!-- MENU TÍCH HỢP -->
+        <div class="flex justify-center gap-4 mb-8">
+            <span class="bg-[#ce9552] text-white px-6 py-2 rounded-full font-bold shadow-md transition-all">Tra Cứu Quán Ăn</span>
+            <a href="https://tim-kiem-danh-gia-quan-an-ffkirsfdh9vzsunb6icjnh.streamlit.app/" target="_blank" class="bg-slate-100 text-slate-600 px-6 py-2 rounded-full font-bold hover:bg-slate-200 transition-all text-center inline-block">Thống Kê Tổng Quan</a>
+        </div>
+
+        <div id="tabSearch">
+            
         <!-- TÌM KIẾM -->
         <div class="flex flex-row items-center gap-3 mb-8">
             <div class="relative flex-grow">
@@ -103,33 +100,15 @@
         </div>
 
         <div id="results" class="space-y-4"></div>
-		</div> <!-- Đóng tabSearch -->
+        </div> 
 
-		</div>
+    </div>
 
     <script>
         let chartInstance = null;
         let currentSearchQuery = "";
-        const API_URL = 'https://tim-kiem-danh-gia-quan-an.onrender.com/';
-		
-		function showTab(tabName) {
-            const searchTab = document.getElementById('tabSearch');
-            const dashTab = document.getElementById('tabDashboard');
-            const btnSearch = document.getElementById('btnSearch');
-            const btnDash = document.getElementById('btnDash');
+        const API_URL = 'https://tim-kiem-danh-gia-quan-an.onrender.com';
 
-            if (tabName === 'search') {
-                searchTab.classList.remove('hidden');
-                dashTab.classList.add('hidden');
-                btnSearch.className = "bg-[#ce9552] text-white px-6 py-2 rounded-full font-bold shadow-md transition-all";
-                btnDash.className = "bg-slate-100 text-slate-600 px-6 py-2 rounded-full font-bold hover:bg-slate-200 transition-all";
-            } else {
-                dashTab.classList.remove('hidden');
-                searchTab.classList.add('hidden');
-                btnDash.className = "bg-[#ce9552] text-white px-6 py-2 rounded-full font-bold shadow-md transition-all";
-                btnSearch.className = "bg-slate-100 text-slate-600 px-6 py-2 rounded-full font-bold hover:bg-slate-200 transition-all";
-            }
-        }
         document.addEventListener("DOMContentLoaded", loadRecommendations);
 
         async function loadRecommendations() {
@@ -159,7 +138,6 @@
                     <div onclick="clickRecommendation('${item.restaurant_name}')" 
                          class="cursor-pointer bg-white p-3 rounded-xl border shadow-sm text-sm font-semibold transition-all flex justify-between items-center ${colorClass}">
                         <span class="truncate pr-2">${item.restaurant_name}</span>
-                        <!-- Đổi màu chữ ngôi sao bên trong -->
                         <span class="text-xs bg-[#FDF6EC] border border-[#F0E0C9] px-2 py-1 rounded-md font-black min-w-max text-[#ce9552]">
                             ${score}★ (${item.total_reviews})
                         </span>
@@ -219,7 +197,6 @@
                 let html = `<p class="text-xs font-bold text-slate-400 uppercase mb-2">Bài đánh giá từ thực khách</p>`;
                 data.forEach(item => {
                     let score = parseFloat(item.rating_score) || 0;
-                    // Đổi màu badge sao cho đồng bộ
                     let badgeBg = score >= 4 ? 'bg-[#FDF6EC] text-[#ce9552] border border-[#F0E0C9]' : (score == 3 ? 'bg-amber-100 text-amber-800' : 'bg-rose-100 text-rose-800');
                     html += `
                         <div class="p-5 bg-white border border-[#F0E0C9] rounded-2xl shadow-sm">
