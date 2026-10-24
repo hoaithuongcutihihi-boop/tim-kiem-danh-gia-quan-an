@@ -133,6 +133,30 @@
             }
             let html = '';
             list.forEach(item => {
+                // 1. SỬA LỖI TÊN NULL: Bỏ qua không hiển thị các quán không có tên hợp lệ
+                let name = item.restaurant_name;
+                if (!name || String(name).toLowerCase() === 'null' || String(name).toLowerCase() === 'nan') return;
+
+                // 2. SỬA LỖI ĐIỂM NaN: Nếu điểm bị lỗi, hiển thị mặc định là 0.0 hoặc N/A
+                let rawScore = parseFloat(item.avg_score);
+                let score = isNaN(rawScore) ? '0.0' : rawScore.toFixed(1);
+                
+                let reviews = item.total_reviews || 0;
+
+                html += `
+                    <div onclick="clickRecommendation('${name}')" 
+                         class="cursor-pointer bg-white p-3 rounded-xl border shadow-sm text-sm font-semibold transition-all flex justify-between items-center ${colorClass}">
+                        <span class="truncate pr-2">${name}</span>
+                        <span class="text-xs bg-[#FDF6EC] border border-[#F0E0C9] px-2 py-1 rounded-md font-black min-w-max text-[#ce9552]">
+                            ${score}★ (${reviews})
+                        </span>
+                    </div>`;
+            });
+            container.innerHTML = html;
+        }
+            }
+            let html = '';
+            list.forEach(item => {
                 let score = parseFloat(item.avg_score).toFixed(1);
                 html += `
                     <div onclick="clickRecommendation('${item.restaurant_name}')" 
